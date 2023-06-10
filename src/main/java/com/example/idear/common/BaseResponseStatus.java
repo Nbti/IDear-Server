@@ -31,6 +31,7 @@ public enum BaseResponseStatus {
     INVALID_JWT(HttpStatus.BAD_REQUEST, "유효하지 않은 jwt 입니다."),
     JWT_MISMATCH(HttpStatus.BAD_REQUEST, "jwt 정보가 일치하지 않습니다."),
     INVALID_USER_ID(HttpStatus.BAD_REQUEST, "유효하지 않은 user id 입니다."),
+    INVALID_PROFILE_ID(HttpStatus.BAD_REQUEST, "유효하지 않은 profile id 입니다."),
 
 
 

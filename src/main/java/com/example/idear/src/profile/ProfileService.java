@@ -1,7 +1,6 @@
 package com.example.idear.src.profile;
 
 import com.example.idear.src.profile.models.Profile;
-import com.example.idear.src.profile.models.ProfileKeyword;
 import com.example.idear.src.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import java.util.Optional;
 @Service
 public class ProfileService {
     private final ProfileRepository profileRepository;
-    private final ProfileKeywordRepository profileKeywordRepository;
 
     // 프로픨 생성
     public String newProfile(ProfileReqDTO profileReqDTO) {
@@ -21,23 +19,17 @@ public class ProfileService {
 
         profile.setIs_polite(profileReqDTO.getIs_polite());
         profile.setMbti(profileReqDTO.getMbti());
+        profile.setProfileKeyword(profileReqDTO.getProfileKeyword());
 
         User user = new User();
         user.setId(1L);
         user.setName("test");
         user.setEmail("test");
         user.setPassword("test");
-        profile.setUser_id(user);
+
+        profile.setUser(user);
 
         profileRepository.save(profile);
-
-        // 프로필 키워드 저장
-        for (int i = 0; i < profileReqDTO.getKeyword().size(); i++) {
-            ProfileKeyword profileKeyword = new ProfileKeyword();
-            profileKeyword.setKeyword(profileReqDTO.getKeyword().get(i));
-            profileKeyword.setProfile(profile);
-            profileKeywordRepository.save(profileKeyword);
-        }
 
         return "프로필 생성 성공";
     }
@@ -60,29 +52,15 @@ public class ProfileService {
         user.setName("test");
         user.setEmail("test");
         user.setPassword("test");
-        profile.setUser_id(user);
+        profile.setUser(user);
 
         profileRepository.save(profile);
-
-        // 수정된 프로필 키워드 저장
-        for (int i = 0; i < profileReqDTO.getKeyword().size(); i++) {
-            ProfileKeyword profileKeyword = new ProfileKeyword();
-            profileKeyword.setKeyword(profileReqDTO.getKeyword().get(i));
-            profileKeyword.setProfile(profile);
-            profileKeywordRepository.save(profileKeyword);
-        }
 
         return "프로필 수정 성공";
     }
 
     // 프로필 삭제
     public String deleteProfile(String profileId) {
-        List<ProfileKeyword> profileKeyword = profileKeywordRepository.findByProfileId(Long.valueOf(profileId));
-        for (int i = 0; i < profileKeyword.size(); i++){
-            System.out.println("@@@@@@@@@@@@@@@@@" + profileKeyword.get(i));
-            profileKeywordRepository.delete(profileKeyword.get(i));
-        }
-
         Optional<Profile> profileOptional = profileRepository.findById(Long.valueOf(profileId));
         Profile profile = profileOptional.get();
         profileRepository.delete(profile);

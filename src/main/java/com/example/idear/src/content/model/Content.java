@@ -20,6 +20,6 @@ public class Content {
     @Column(columnDefinition = "TIMESTAMP")
     private String createdAt;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "query_id")
+    @JoinColumn(name = "query_id", columnDefinition = "INT UNSIGNED")
     private Query query;
 }

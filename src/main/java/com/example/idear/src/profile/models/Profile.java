@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -18,14 +19,16 @@ public class Profile {
     @Column(name = "id", nullable = false, columnDefinition = "INT UNSIGNED")
     private Long id;
 
-    @Column(name = "is_polite", length = 1, nullable = false)
-    private String is_polite;
+    @Column(name = "is_polite", columnDefinition = "TINYINT")
+    private Boolean is_polite;
 
     @Column(name = "mbti", length = 10, nullable = false)
     private String mbti;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user_id;
+    @Column(name = "keyword")
+    private String profileKeyword;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
 }

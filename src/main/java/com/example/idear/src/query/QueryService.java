@@ -23,6 +23,15 @@ public class QueryService {
     public QueryRes query(QueryReq queryReq){
         ChatCompletionChoice result = chatGPTService.query(queryReq);
 
+        saveQuery(queryReq);
+
+        return new QueryRes(
+                result.getMessage().getContent(),
+                result.getFinishReason());
+    }
+
+    // 질문 저장
+    public void saveQuery(QueryReq queryReq) {
         // 질문 저장
         User user = userRepository.findById(queryReq.getUserId())
                 .orElseThrow(
@@ -37,13 +46,5 @@ public class QueryService {
                 .build();
 
         queryRepository.save(query);
-
-        return new QueryRes(
-                result.getMessage().getContent(),
-                result.getFinishReason());
     }
-
-    // 저장 메소드
-
-//    public
 }

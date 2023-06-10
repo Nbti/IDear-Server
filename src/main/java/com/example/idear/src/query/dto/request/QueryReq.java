@@ -12,4 +12,5 @@ public class QueryReq {
     private String type;
     private String content;
     private Long userId;
+    private Long profileId;
 }
