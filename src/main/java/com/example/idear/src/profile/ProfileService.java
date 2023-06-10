@@ -56,4 +56,12 @@ public class ProfileService {
 
         return "프로필 수정 성공";
     }
+
+    // 프로필 삭제
+    public String deleteProfile(String profileId) {
+        Optional<Profile> profileOptional = profileRepository.findById(Long.valueOf(profileId));
+        Profile profile = profileOptional.get();
+        profileRepository.delete(profile);
+        return "회원탈퇴";
+    }
 }

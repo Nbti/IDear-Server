@@ -37,5 +37,11 @@ public class ProfileController {
         return new BaseResponse<ProfileReqDTO>(BaseResponseStatus.SUCCESS, profileReqDTO);
     }
 
+    // 프로필 삭제
+    @DeleteMapping("/{profileId}")
+    public BaseResponse<String> deleteProfile(@PathVariable ("profileId") String profileId) {
+        profileService.deleteProfile(profileId);
+        return new BaseResponse<String>(BaseResponseStatus.SUCCESS, profileId);
+    }
 
 }
