@@ -16,7 +16,6 @@ public class ProfileController {
     // 프로필 생성
     @PostMapping("/{userId}")
     public BaseResponse<ProfileReqDTO> saveOrder(@RequestBody ProfileReqDTO profileReqDTO, @PathVariable ("userId") String userId) {
-        System.out.println("#####################3" + profileReqDTO.getName());
         profileService.newProfile(profileReqDTO);
         return new BaseResponse<ProfileReqDTO>(BaseResponseStatus.SUCCESS, profileReqDTO);
     }

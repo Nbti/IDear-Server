@@ -1,6 +1,6 @@
 package com.example.idear.src.profile.models;
 
-import com.example.idear.src.user.models.User;
+import com.example.idear.src.user.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,7 +28,7 @@ public class Profile {
     private String colorCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user")
+    @JoinColumn(name="user_id")
     private User user_id;
 
 }

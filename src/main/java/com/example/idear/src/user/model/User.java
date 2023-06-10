@@ -1,4 +1,4 @@
-package com.example.idear.src.user.models;
+package com.example.idear.src.user.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
