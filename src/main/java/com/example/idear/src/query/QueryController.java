@@ -3,7 +3,7 @@ package com.example.idear.src.query;
 import com.example.idear.common.BaseResponse;
 import com.example.idear.common.BaseResponseStatus;
 import com.example.idear.src.query.dto.request.QueryReq;
-import com.example.idear.src.query.dto.response.FirstQueryRes;
+import com.example.idear.src.query.dto.response.QueryRes;
 import com.example.idear.src.query.dto.response.QueriesRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,20 +20,23 @@ public class QueryController {
 
     // 첫 질문하기
     @PostMapping("")
-    public BaseResponse<FirstQueryRes> query(
+    public BaseResponse<QueryRes> query(
             @RequestBody QueryReq queryReq
     ){
         return new BaseResponse(BaseResponseStatus.SUCCESS, queryService.query(queryReq));
     }
 
     // 재질문하기
-//    @PostMapping("/content/{contentId}")
-//    public BaseResponse<QueryRes> requery(){
+//    @PostMapping("/{queryId}")
+//    public BaseResponse<QueryRes> requery(
+//            @PathVariable Long queryId
+//            @RequestBody
+//    ){
 //
 //    }
 
     // 글 목록 조회
-    @GetMapping("")
+    @GetMapping("/content")
     public BaseResponse<List<QueriesRes>> getQueries(
             @RequestParam Long userId
     ){

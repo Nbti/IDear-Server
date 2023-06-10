@@ -9,7 +9,7 @@ import com.example.idear.src.content.model.Content;
 import com.example.idear.src.profile.ProfileRepository;
 import com.example.idear.src.profile.models.Profile;
 import com.example.idear.src.query.dto.request.QueryReq;
-import com.example.idear.src.query.dto.response.FirstQueryRes;
+import com.example.idear.src.query.dto.response.QueryRes;
 import com.example.idear.src.query.model.MyQuery;
 import com.example.idear.src.user.UserRepository;
 import com.example.idear.src.user.model.User;
@@ -27,13 +27,14 @@ public class QueryService {
     private final ProfileRepository profileRepository;
 
     // 질문하기
-    public FirstQueryRes query(QueryReq queryReq){
+    public QueryRes query(QueryReq queryReq){
         ChatCompletionChoice result = chatGPTService.query(queryReq);
 
         MyQuery myQueryCreated = saveQuery(queryReq);
         Content contentCreated = contentService.saveContent(result.getMessage().getContent(), myQueryCreated);
 
-        return new FirstQueryRes(
+        return new QueryRes(
+                myQueryCreated.getId(),
                 myQueryCreated.getDear(),
                 myQueryCreated.getType(),
                 myQueryCreated.getCreatedAt(),
