@@ -46,6 +46,7 @@ public class ProfileService {
 
         profile.setIs_polite(profileReqDTO.getIs_polite());
         profile.setMbti(profileReqDTO.getMbti());
+        profile.setProfileKeyword(profileReqDTO.getProfileKeyword());
 
         User user = new User();
         user.setId(1L);
