@@ -4,7 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class ProfileReqDTO {
-    private String name;
+    private int is_polite;
     private String mbti;
-    private String colorCode;
 }

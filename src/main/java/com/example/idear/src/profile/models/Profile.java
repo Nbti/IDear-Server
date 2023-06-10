@@ -18,14 +18,11 @@ public class Profile {
     @Column(name = "id", nullable = false, columnDefinition = "INT UNSIGNED")
     private Long id;
 
-    @Column(length = 10, name = "name", nullable = false)
-    private String name;
+    @Column(length = 1, name = "is_polite", columnDefinition = "TINYINT", nullable = false)
+    private int is_polite;
 
     @Column(length = 10, name = "mbti", nullable = false)
     private String mbti;
-
-    @Column(length = 10, name = "colorCode", nullable = false)
-    private String colorCode;
 
     @ManyToOne
     @JoinColumn(name="user_id")

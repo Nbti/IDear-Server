@@ -16,9 +16,8 @@ public class ProfileService {
     public String newProfile(ProfileReqDTO profileReqDTO) {
         Profile profile = new Profile();
 
-        profile.setName(profileReqDTO.getName());
+        profile.setIs_polite(profileReqDTO.getIs_polite());
         profile.setMbti(profileReqDTO.getMbti());
-        profile.setColorCode(profileReqDTO.getColorCode());
 
         User user = new User();
         user.setId(1L);

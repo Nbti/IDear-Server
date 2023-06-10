@@ -17,15 +17,15 @@ public class ProfileController {
     ProfileService profileService;
 
     // 프로필 생성
-    @PostMapping("/{userId}")
-    public BaseResponse<ProfileReqDTO> saveOrder(@RequestBody ProfileReqDTO profileReqDTO, @PathVariable ("userId") String userId) {
+    @PostMapping("")
+    public BaseResponse<ProfileReqDTO> saveOrder(@RequestBody ProfileReqDTO profileReqDTO) {
         profileService.newProfile(profileReqDTO);
         return new BaseResponse<ProfileReqDTO>(BaseResponseStatus.SUCCESS, profileReqDTO);
     }
 
     // 프로필 가져오기
-    @GetMapping("/{userId}")
+    @GetMapping("")
     public BaseResponse<List<Profile>> findAll(@PathVariable ("userId") String userId) {
-        return new BaseResponse<List<Profile>>(BaseResponseStatus.SUCCESS, profileService.allProfile(userId));
+        return new BaseResponse<List<Profile>>(BaseResponseStatus.SUCCESS, profileService.allProfile(String.valueOf(1)));
     }
 }
