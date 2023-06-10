@@ -1,17 +1,13 @@
 package com.example.idear.src.star;
 
-import com.example.idear.common.BaseResponseStatus;
-import com.example.idear.exception.BaseException;
 import com.example.idear.src.star.Dao.Starred;
 import com.example.idear.src.star.Dto.RequestDto.StarredRequestDto;
 import com.example.idear.src.star.Dto.ResponseDto.StarredResponseDto;
-import com.example.idear.src.user.User;
 import com.example.idear.src.user.UserRepository;
+import com.example.idear.src.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +15,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class StarService {
 
-//    private final ContentRepository contentRepository;dd
     private final StarRepository starRepository;
     private final UserRepository userRepository;
 

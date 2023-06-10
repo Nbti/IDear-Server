@@ -1,7 +1,7 @@
 package com.example.idear.src.star.Dao;
 
 
-import com.example.idear.src.user.User;
+import com.example.idear.src.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
