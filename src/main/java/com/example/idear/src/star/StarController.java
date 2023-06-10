@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/mypage/content")
@@ -16,9 +19,16 @@ public class StarController {
 
     private final StarService starService;
 
-    @GetMapping("")
-    public BaseResponse<StarredResponseDto> starred(@RequestBody StarredRequestDto starredRequestDto) {
+    @PostMapping("")
+    public BaseResponse<StarredResponseDto> setStarred(@RequestBody StarredRequestDto starredRequestDto) {
         StarredResponseDto starredResponseDto = starService.setStarred(starredRequestDto);
         return new BaseResponse<StarredResponseDto>(BaseResponseStatus.SUCCESS, starredResponseDto);
+    }
+
+
+    @GetMapping("/starred/{userId}")
+    public BaseResponse<List<Starred>> starred(@PathVariable("userId") Long userId){
+        List<Starred> list = starService.getStarred(userId);
+        return new BaseResponse<List<Starred>>(BaseResponseStatus.SUCCESS, list);
     }
 }

@@ -1,10 +1,12 @@
 package com.example.idear.src.user;
 
+import com.example.idear.src.star.Dao.Starred;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @NoArgsConstructor
 @Getter
@@ -25,4 +27,12 @@ public class User {
 
     @Column(length = 255, name = "password", nullable = false)
     private String password;
+//
+//    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL) // (1)
+//    @JoinColumn(name="user_id")
+//    private Collection<Starred> starred;
+//
+//    public Collection<Starred> getStarred(){
+//        return starred;
+//    }
 }

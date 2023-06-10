@@ -30,8 +30,8 @@ public class Starred {
     @Column(name = "created_at")
     private LocalDateTime regdate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user_id;
+    private User userId;
 
 }
