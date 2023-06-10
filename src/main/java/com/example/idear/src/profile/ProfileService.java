@@ -1,6 +1,7 @@
 package com.example.idear.src.profile;
 
 import com.example.idear.src.profile.models.Profile;
+import com.example.idear.src.profile.models.ProfileKeyword;
 import com.example.idear.src.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @Service
 public class ProfileService {
     private final ProfileRepository profileRepository;
+    private final ProfileKeywordRepository profileKeywordRepository;
 
     // 프로픨 생성
     public String newProfile(ProfileReqDTO profileReqDTO) {
@@ -28,6 +30,14 @@ public class ProfileService {
         profile.setUser_id(user);
 
         profileRepository.save(profile);
+
+        // 프로필 키워드 저장
+        for (int i = 0; i < profileReqDTO.getKeyword().size(); i++) {
+            ProfileKeyword profileKeyword = new ProfileKeyword();
+            profileKeyword.setKeyword(profileReqDTO.getKeyword().get(i));
+            profileKeyword.setProfile(profile);
+            profileKeywordRepository.save(profileKeyword);
+        }
 
         return "프로필 생성 성공";
     }

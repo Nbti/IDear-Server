@@ -19,7 +19,6 @@ public class ProfileController {
     // 프로필 생성
     @PostMapping("")
     public BaseResponse<ProfileReqDTO> createProfile(@RequestBody ProfileReqDTO profileReqDTO) {
-//        System.out.println(profileKeywordReqDTO);
         profileService.newProfile(profileReqDTO);
         return new BaseResponse<ProfileReqDTO>(BaseResponseStatus.SUCCESS, profileReqDTO);
     }
