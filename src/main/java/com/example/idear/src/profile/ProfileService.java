@@ -64,14 +64,29 @@ public class ProfileService {
 
         profileRepository.save(profile);
 
+        // 수정된 프로필 키워드 저장
+        for (int i = 0; i < profileReqDTO.getKeyword().size(); i++) {
+            ProfileKeyword profileKeyword = new ProfileKeyword();
+            profileKeyword.setKeyword(profileReqDTO.getKeyword().get(i));
+            profileKeyword.setProfile(profile);
+            profileKeywordRepository.save(profileKeyword);
+        }
+
         return "프로필 수정 성공";
     }
 
     // 프로필 삭제
     public String deleteProfile(String profileId) {
+        List<ProfileKeyword> profileKeyword = profileKeywordRepository.findByProfileId(Long.valueOf(profileId));
+        for (int i = 0; i < profileKeyword.size(); i++){
+            System.out.println("@@@@@@@@@@@@@@@@@" + profileKeyword.get(i));
+            profileKeywordRepository.delete(profileKeyword.get(i));
+        }
+
         Optional<Profile> profileOptional = profileRepository.findById(Long.valueOf(profileId));
         Profile profile = profileOptional.get();
         profileRepository.delete(profile);
+
         return "회원탈퇴";
     }
 }

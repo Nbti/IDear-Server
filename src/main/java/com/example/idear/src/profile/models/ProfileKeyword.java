@@ -21,7 +21,7 @@ public class ProfileKeyword {
     private String keyword;
 
     @ManyToOne
-    @JoinColumn(name="profile")
+    @JoinColumn(name="profile_id")
     private Profile profile;
 
 }
