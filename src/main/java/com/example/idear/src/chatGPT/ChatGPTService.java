@@ -37,7 +37,7 @@ public class ChatGPTService {
         System.out.println(profile.getMbti().charAt(0));
 
         String content =
-                "- To : " + queryReq.getTo() + "\n" +
+                "- To : " + queryReq.getDear() + "\n" +
                 "- Type : " + queryReq.getType() + "\n" +
                 "- Writing tone : ";
         if(profile.getMbti().charAt(0) == 'E')
@@ -50,23 +50,25 @@ public class ChatGPTService {
         else if(profile.getMbti().charAt(1) == 'S')
             content += "Realistic, Detail-oriented, Factual, ";
 
-        if(profile.getMbti().charAt(1) == 'F')
+        if(profile.getMbti().charAt(2) == 'F')
             content += "Empathetic, Caring, Emotional, Supportive, Harmonious, Compassionate, Caring, ";
-        else if(profile.getMbti().charAt(1) == 'T')
+        else if(profile.getMbti().charAt(2) == 'T')
             content += "Logical, Objective, Rational, Critical, Detached, Pragmatic, Impartial, Analytical, ";
 
-        if(profile.getMbti().charAt(1) == 'P')
+        if(profile.getMbti().charAt(3) == 'P')
             content += "Flexible, Easygoing, Laid-back, Adaptive\n";
-        else if(profile.getMbti().charAt(1) == 'J')
+        else if(profile.getMbti().charAt(3) == 'J')
             content += "Systematic, Responsible, Efficient, Punctual\n";
+
+        // TODO : 키워드 추가
 
         content += "- Content : " + queryReq.getContent() + "\n" +
                 "- Language : in Korean\n" +
                 "- Character limit : 400 characters in Korean\n";
         if(profile.getIs_polite())
-            content += "polite speech";
+            content += "- polite speech";
         else
-            content += "casual speech";
+            content += "- casual speech";
 
         System.out.println(content);
 
@@ -87,9 +89,9 @@ public class ChatGPTService {
         ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
                 .model("gpt-3.5-turbo")
                 .messages(chatMessages)
-                .temperature(1.0)
-                .frequencyPenalty(1.0)
-                .presencePenalty(1.0)
+                .temperature(0.8)
+                .frequencyPenalty(0.8)
+                .presencePenalty(0.8)
                 .build();
 
         ChatCompletionChoice chatCompletionChoice = openAiService.createChatCompletion(chatCompletionRequest).getChoices().get(0);

@@ -3,6 +3,9 @@ package com.example.idear.src.query;
 import com.example.idear.common.BaseResponseStatus;
 import com.example.idear.exception.BaseException;
 import com.example.idear.src.chatGPT.ChatGPTService;
+import com.example.idear.src.content.ContentService;
+import com.example.idear.src.profile.ProfileRepository;
+import com.example.idear.src.profile.models.Profile;
 import com.example.idear.src.query.dto.request.QueryReq;
 import com.example.idear.src.query.dto.response.QueryRes;
 import com.example.idear.src.query.model.Query;
@@ -16,35 +19,42 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class QueryService {
     private final ChatGPTService chatGPTService;
+    private final ContentService contentService;
     private final QueryRepository queryRepository;
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
 
     // 질문하기
     public QueryRes query(QueryReq queryReq){
         ChatCompletionChoice result = chatGPTService.query(queryReq);
 
         saveQuery(queryReq);
-
+//        content
         return new QueryRes(
                 result.getMessage().getContent(),
                 result.getFinishReason());
     }
 
     // 질문 저장
-    public void saveQuery(QueryReq queryReq) {
+    public Query saveQuery(QueryReq queryReq) {
         // 질문 저장
         User user = userRepository.findById(queryReq.getUserId())
                 .orElseThrow(
                         () -> new BaseException(BaseResponseStatus.INVALID_USER_ID)
                 );
+        Profile profile = profileRepository.findById(queryReq.getProfileId())
+                .orElseThrow(
+                        () -> new BaseException(BaseResponseStatus.INVALID_PROFILE_ID)
+                );
 
         Query query = Query.builder()
-                .to(queryReq.getTo())
-                .content(queryReq.getContent())
+                .dear(queryReq.getDear())
                 .type(queryReq.getType())
+                .content(queryReq.getContent())
                 .user(user)
+                .profile(profile)
                 .build();
 
-        queryRepository.save(query);
+        return queryRepository.save(query);
     }
 }

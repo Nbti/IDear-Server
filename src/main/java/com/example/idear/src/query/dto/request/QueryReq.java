@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class QueryReq {
-    private String to;
+    private String dear;
     private String type;
     private String content;
     private Long userId;

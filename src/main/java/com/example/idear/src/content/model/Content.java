@@ -1,6 +1,7 @@
 package com.example.idear.src.content.model;
 
 import com.example.idear.src.query.model.Query;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,12 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 public class Content {
+    @Builder
+    public Content(String content, Query query) {
+        this.content = content;
+        this.query = query;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")

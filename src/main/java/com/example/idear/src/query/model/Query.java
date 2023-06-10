@@ -17,11 +17,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Query {
     @Builder
-    public Query(String to, String type, String content, String createdAt, User user, Profile profile) {
-        this.to = to;
+    public Query(String dear, String type, String content, User user, Profile profile) {
+        this.dear = dear;
         this.type = type;
         this.content = content;
-        this.createdAt = createdAt;
         this.user = user;
         this.profile = profile;
     }
@@ -30,7 +29,7 @@ public class Query {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")
     private Long id;
-    private String to;
+    private String dear;
     private String type;
     private String content;
     @Column(columnDefinition = "TIMESTAMP")
