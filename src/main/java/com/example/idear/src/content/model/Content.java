@@ -1,6 +1,6 @@
 package com.example.idear.src.content.model;
 
-import com.example.idear.src.query.model.Query;
+import com.example.idear.src.query.model.MyQuery;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,9 +16,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Content {
     @Builder
-    public Content(String content, Query query) {
+    public Content(String content, MyQuery myQuery) {
         this.content = content;
-        this.query = query;
+        this.myQuery = myQuery;
     }
 
     @Id
@@ -30,5 +30,5 @@ public class Content {
     private String createdAt;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "query_id", columnDefinition = "INT UNSIGNED")
-    private Query query;
+    private MyQuery myQuery;
 }

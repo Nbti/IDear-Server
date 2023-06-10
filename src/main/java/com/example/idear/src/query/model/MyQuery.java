@@ -7,16 +7,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@Table(name = "my_query")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Query {
+public class MyQuery {
     @PrePersist
     public void prePersist() {
         this.createdAt = this.createdAt == null ?
@@ -24,7 +24,7 @@ public class Query {
                 : this.createdAt;
     }
     @Builder
-    public Query(String dear, String type, String content, User user, Profile profile) {
+    public MyQuery(String dear, String type, String content, User user, Profile profile) {
         this.dear = dear;
         this.type = type;
         this.content = content;

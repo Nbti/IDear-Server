@@ -1,7 +1,7 @@
 package com.example.idear.src.content;
 
 import com.example.idear.src.content.model.Content;
-import com.example.idear.src.query.model.Query;
+import com.example.idear.src.query.model.MyQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ContentService {
     private final ContentRepository contentRepository;
-    public void saveContent(String message, Query queryCreated){
+    public Content saveContent(String message, MyQuery myQueryCreated){
         Content content = Content.builder()
                 .content(message)
-                .query(queryCreated)
+                .myQuery(myQueryCreated)
                 .build();
 
-        contentRepository.save(content);
+        return contentRepository.save(content);
     }
 }

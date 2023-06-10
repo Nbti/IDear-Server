@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ContentRes {
+    private Long id;
     private String message;
     private String finishReason;
 }

@@ -5,11 +5,12 @@ import com.example.idear.exception.BaseException;
 import com.example.idear.src.chatGPT.ChatGPTService;
 import com.example.idear.src.content.ContentService;
 import com.example.idear.src.content.dto.response.ContentRes;
+import com.example.idear.src.content.model.Content;
 import com.example.idear.src.profile.ProfileRepository;
 import com.example.idear.src.profile.models.Profile;
 import com.example.idear.src.query.dto.request.QueryReq;
 import com.example.idear.src.query.dto.response.FirstQueryRes;
-import com.example.idear.src.query.model.Query;
+import com.example.idear.src.query.model.MyQuery;
 import com.example.idear.src.user.UserRepository;
 import com.example.idear.src.user.model.User;
 import com.theokanning.openai.completion.chat.ChatCompletionChoice;
@@ -29,19 +30,19 @@ public class QueryService {
     public FirstQueryRes query(QueryReq queryReq){
         ChatCompletionChoice result = chatGPTService.query(queryReq);
 
-        Query queryCreated = saveQuery(queryReq);
-        contentService.saveContent(result.getMessage().getContent(), queryCreated);
+        MyQuery myQueryCreated = saveQuery(queryReq);
+        Content contentCreated = contentService.saveContent(result.getMessage().getContent(), myQueryCreated);
 
         return new FirstQueryRes(
-                queryCreated.getDear(),
-                queryCreated.getType(),
-                queryCreated.getCreatedAt(),
-                new ContentRes(result.getMessage().getContent(), result.getFinishReason())
+                myQueryCreated.getDear(),
+                myQueryCreated.getType(),
+                myQueryCreated.getCreatedAt(),
+                new ContentRes(contentCreated.getId(), result.getMessage().getContent(), result.getFinishReason())
         );
     }
 
     // 질문 저장
-    public Query saveQuery(QueryReq queryReq) {
+    public MyQuery saveQuery(QueryReq queryReq) {
         // 질문 저장
         User user = userRepository.findById(queryReq.getUserId())
                 .orElseThrow(
@@ -52,7 +53,7 @@ public class QueryService {
                         () -> new BaseException(BaseResponseStatus.INVALID_PROFILE_ID)
                 );
 
-        Query query = Query.builder()
+        MyQuery myQuery = MyQuery.builder()
                 .dear(queryReq.getDear())
                 .type(queryReq.getType())
                 .content(queryReq.getContent())
@@ -60,6 +61,6 @@ public class QueryService {
                 .profile(profile)
                 .build();
 
-        return queryRepository.save(query);
+        return queryRepository.save(myQuery);
     }
 }

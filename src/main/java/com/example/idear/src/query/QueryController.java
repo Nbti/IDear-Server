@@ -33,11 +33,11 @@ public class QueryController {
 //    }
 
     // 글 목록 조회
-//    @GetMapping("")
-//    public BaseResponse<List<QueriesRes>> getQueries(
-//            @RequestParam Long userId
-//    ){
-//        return new BaseResponse(BaseResponseStatus.SUCCESS, queryProvider)
-//    }
+    @GetMapping("")
+    public BaseResponse<List<QueriesRes>> getQueries(
+            @RequestParam Long userId
+    ){
+        return new BaseResponse(BaseResponseStatus.SUCCESS, queryProvider.getQueries(userId));
+    }
 
 }
