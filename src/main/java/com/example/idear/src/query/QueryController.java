@@ -3,8 +3,8 @@ package com.example.idear.src.query;
 import com.example.idear.common.BaseResponse;
 import com.example.idear.common.BaseResponseStatus;
 import com.example.idear.src.query.dto.request.QueryReq;
-import com.example.idear.src.query.dto.response.QueryRes;
 import com.example.idear.src.query.dto.response.QueriesRes;
+import com.example.idear.src.query.dto.response.QueryRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +41,12 @@ public class QueryController {
             @RequestParam Long userId
     ){
         return new BaseResponse(BaseResponseStatus.SUCCESS, queryProvider.getQueries(userId));
+    }
+
+    // 글 목록 조회
+    @GetMapping("/content/{contentId}")
+    public BaseResponse<String> getContent(@PathVariable("contentId") Long contentId){
+        return new BaseResponse(BaseResponseStatus.SUCCESS, queryProvider.getContent(contentId));
     }
 
 }
