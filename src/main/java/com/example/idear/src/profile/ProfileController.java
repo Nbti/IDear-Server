@@ -18,7 +18,8 @@ public class ProfileController {
 
     // 프로필 생성
     @PostMapping("")
-    public BaseResponse<ProfileReqDTO> saveOrder(@RequestBody ProfileReqDTO profileReqDTO) {
+    public BaseResponse<ProfileReqDTO> createProfile(@RequestBody ProfileReqDTO profileReqDTO) {
+//        System.out.println(profileKeywordReqDTO);
         profileService.newProfile(profileReqDTO);
         return new BaseResponse<ProfileReqDTO>(BaseResponseStatus.SUCCESS, profileReqDTO);
     }
@@ -28,4 +29,13 @@ public class ProfileController {
     public BaseResponse<List<Profile>> findAll() {
         return new BaseResponse<List<Profile>>(BaseResponseStatus.SUCCESS, profileService.allProfile());
     }
+
+    // 프로필 수정
+    @PatchMapping("/{profileId}")
+    public BaseResponse<ProfileReqDTO> editProfile(@RequestBody ProfileReqDTO profileReqDTO, @PathVariable ("profileId") String profileId) {
+        profileService.patchProfile(profileReqDTO, profileId);
+        return new BaseResponse<ProfileReqDTO>(BaseResponseStatus.SUCCESS, profileReqDTO);
+    }
+
+
 }
