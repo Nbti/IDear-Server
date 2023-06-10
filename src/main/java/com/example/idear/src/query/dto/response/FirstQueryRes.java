@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class QueryRes {
+public class FirstQueryRes {
     private String dear;
     private String type;
     private String createdAt;

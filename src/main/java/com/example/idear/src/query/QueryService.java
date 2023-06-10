@@ -4,10 +4,11 @@ import com.example.idear.common.BaseResponseStatus;
 import com.example.idear.exception.BaseException;
 import com.example.idear.src.chatGPT.ChatGPTService;
 import com.example.idear.src.content.ContentService;
+import com.example.idear.src.content.dto.response.ContentRes;
 import com.example.idear.src.profile.ProfileRepository;
 import com.example.idear.src.profile.models.Profile;
 import com.example.idear.src.query.dto.request.QueryReq;
-import com.example.idear.src.query.dto.response.QueryRes;
+import com.example.idear.src.query.dto.response.FirstQueryRes;
 import com.example.idear.src.query.model.Query;
 import com.example.idear.src.user.UserRepository;
 import com.example.idear.src.user.model.User;
@@ -25,14 +26,18 @@ public class QueryService {
     private final ProfileRepository profileRepository;
 
     // 질문하기
-    public QueryRes query(QueryReq queryReq){
+    public FirstQueryRes query(QueryReq queryReq){
         ChatCompletionChoice result = chatGPTService.query(queryReq);
 
-        saveQuery(queryReq);
-//        content
-        return new QueryRes(
-                result.getMessage().getContent(),
-                result.getFinishReason());
+        Query queryCreated = saveQuery(queryReq);
+        contentService.saveContent(result.getMessage().getContent(), queryCreated);
+
+        return new FirstQueryRes(
+                queryCreated.getDear(),
+                queryCreated.getType(),
+                queryCreated.getCreatedAt(),
+                new ContentRes(result.getMessage().getContent(), result.getFinishReason())
+        );
     }
 
     // 질문 저장
