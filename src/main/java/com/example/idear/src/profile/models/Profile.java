@@ -27,7 +27,7 @@ public class Profile {
     @Column(length = 10, name = "colorCode", nullable = false)
     private String colorCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="user_id")
     private User user_id;
 

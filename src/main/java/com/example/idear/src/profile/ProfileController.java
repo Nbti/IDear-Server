@@ -2,9 +2,12 @@ package com.example.idear.src.profile;
 
 import com.example.idear.common.BaseResponse;
 import com.example.idear.common.BaseResponseStatus;
+import com.example.idear.src.profile.models.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,4 +23,9 @@ public class ProfileController {
         return new BaseResponse<ProfileReqDTO>(BaseResponseStatus.SUCCESS, profileReqDTO);
     }
 
+    // 프로필 가져오기
+    @GetMapping("/{userId}")
+    public BaseResponse<List<Profile>> findAll(@PathVariable ("userId") String userId) {
+        return new BaseResponse<List<Profile>>(BaseResponseStatus.SUCCESS, profileService.allProfile(userId));
+    }
 }

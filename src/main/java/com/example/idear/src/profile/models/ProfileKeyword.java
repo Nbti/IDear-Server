@@ -20,7 +20,7 @@ public class ProfileKeyword {
     @Column(length = 10, name = "keyword", nullable = false)
     private String keyword;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="profile")
     private Profile profile;
 

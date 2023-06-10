@@ -5,6 +5,8 @@ import com.example.idear.src.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class ProfileService {
@@ -28,5 +30,10 @@ public class ProfileService {
         profileRepository.save(profile);
 
         return "프로필 생성 성공";
+    }
+
+    // 프로필 가져오기
+    public List<Profile> allProfile(String userId){
+        return profileRepository.findAll();
     }
 }
