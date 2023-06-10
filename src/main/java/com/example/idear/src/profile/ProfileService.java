@@ -32,7 +32,7 @@ public class ProfileService {
     }
 
     // 프로필 가져오기
-    public List<Profile> allProfile(String userId){
+    public List<Profile> allProfile(){
         return profileRepository.findAll();
     }
 }

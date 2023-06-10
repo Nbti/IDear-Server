@@ -25,7 +25,7 @@ public class ProfileController {
 
     // 프로필 가져오기
     @GetMapping("")
-    public BaseResponse<List<Profile>> findAll(@PathVariable ("userId") String userId) {
-        return new BaseResponse<List<Profile>>(BaseResponseStatus.SUCCESS, profileService.allProfile(String.valueOf(1)));
+    public BaseResponse<List<Profile>> findAll() {
+        return new BaseResponse<List<Profile>>(BaseResponseStatus.SUCCESS, profileService.allProfile());
     }
 }
