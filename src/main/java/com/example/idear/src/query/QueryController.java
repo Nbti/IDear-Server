@@ -3,6 +3,7 @@ package com.example.idear.src.query;
 import com.example.idear.common.BaseResponse;
 import com.example.idear.common.BaseResponseStatus;
 import com.example.idear.src.query.dto.request.QueryReq;
+import com.example.idear.src.query.dto.request.RequeryReq;
 import com.example.idear.src.query.dto.response.QueryRes;
 import com.example.idear.src.query.dto.response.QueriesRes;
 import com.example.idear.src.query.dto.response.QueryRes;
@@ -28,13 +29,13 @@ public class QueryController {
     }
 
     // 재질문하기
-//    @PostMapping("/{queryId}")
-//    public BaseResponse<QueryRes> requery(
-//            @PathVariable Long queryId
-//            @RequestBody
-//    ){
-//
-//    }
+    @PostMapping("/{queryId}")
+    public BaseResponse<QueryRes> requery(
+            @PathVariable Long queryId,
+            @RequestBody RequeryReq requeryReq
+    ){
+        return new BaseResponse(BaseResponseStatus.SUCCESS, queryService.requery(queryId, requeryReq));
+    }
 
     // 글 목록 조회
     @GetMapping("/content")
