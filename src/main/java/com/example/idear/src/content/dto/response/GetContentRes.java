@@ -12,5 +12,6 @@ import lombok.Setter;
 public class GetContentRes {
     private Long id;
     private String content;
+    private String feedback;
     private String createdAt;
 }

@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ContentService {
     private final ContentRepository contentRepository;
+    public Content saveContent(String message, String feedback, MyQuery myQueryCreated){
+        Content content = new Content(message, feedback, myQueryCreated);
+
+        return contentRepository.save(content);
+    }
     public Content saveContent(String message, MyQuery myQueryCreated){
-        Content content = Content.builder()
-                .content(message)
-                .myQuery(myQueryCreated)
-                .build();
+        Content content = new Content(message, myQueryCreated);
 
         return contentRepository.save(content);
     }

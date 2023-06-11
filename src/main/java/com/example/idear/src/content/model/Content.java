@@ -20,12 +20,19 @@ public class Content {
         this.content = content;
         this.myQuery = myQuery;
     }
+    @Builder
+    public Content(String content, String feedback, MyQuery myQuery) {
+        this.content = content;
+        this.feedback = feedback;
+        this.myQuery = myQuery;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")
     private Long id;
     private String content;
+    private String feedback;
     @Column(columnDefinition = "TIMESTAMP")
     private String createdAt;
     @ManyToOne(fetch = FetchType.LAZY)

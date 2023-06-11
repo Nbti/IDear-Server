@@ -24,10 +24,11 @@ public class MyQuery {
                 : this.createdAt;
     }
     @Builder
-    public MyQuery(String dear, String type, String content, User user, Profile profile) {
+    public MyQuery(String dear, String type, String content, String question, User user, Profile profile) {
         this.dear = dear;
         this.type = type;
         this.content = content;
+        this.question = question;
         this.user = user;
         this.profile = profile;
     }
@@ -39,6 +40,7 @@ public class MyQuery {
     private String dear;
     private String type;
     private String content;
+    private String question;
     @Column(columnDefinition = "TIMESTAMP")
     private String createdAt;
     @ManyToOne(fetch = FetchType.LAZY)

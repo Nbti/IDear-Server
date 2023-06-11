@@ -3,9 +3,13 @@ package com.example.idear.src.chatGPT;
 import com.example.idear.common.BaseResponseStatus;
 import com.example.idear.common.Constant;
 import com.example.idear.exception.BaseException;
+import com.example.idear.src.content.ContentProvider;
+import com.example.idear.src.content.dto.response.GetContentRes;
 import com.example.idear.src.profile.ProfileRepository;
 import com.example.idear.src.profile.models.Profile;
 import com.example.idear.src.query.dto.request.QueryReq;
+import com.example.idear.src.query.dto.request.RequeryReq;
+import com.example.idear.src.query.model.MyQuery;
 import com.theokanning.openai.OpenAiService;
 import com.theokanning.openai.completion.chat.ChatCompletionChoice;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
@@ -22,56 +26,12 @@ import java.util.List;
 public class ChatGPTService {
     private OpenAiService openAiService = new OpenAiService(Constant.OPEN_API_KEY, Duration.ofSeconds(60));
     private final ProfileRepository profileRepository;
+    private final ContentProvider contentProvider;
 
-    public ChatCompletionChoice query(QueryReq queryReq){
-        Profile profile = profileRepository.findById(queryReq.getProfileId())
-                .orElseThrow(
-                        () -> new BaseException(BaseResponseStatus.INVALID_PROFILE_ID)
-                );
-
+    public ChatCompletionChoice query(String content){
         List<ChatMessage> chatMessages = new ArrayList<>();
 
         chatMessages.add(new ChatMessage("system", "You are the author. please apply the options below to compose your mail."));
-
-        System.out.println(profile.getMbti());
-        System.out.println(profile.getMbti().charAt(0));
-
-        String content =
-                "- To : " + queryReq.getDear() + "\n" +
-                "- Type : " + queryReq.getType() + "\n" +
-                "- Writing tone : ";
-        if(profile.getMbti().charAt(0) == 'E')
-            content += "Outgoing, Sociable, Energetic, ";
-        else if(profile.getMbti().charAt(0) == 'I')
-            content += "Introverted, Deliberate, Thoughtful, ";
-
-        if(profile.getMbti().charAt(1) == 'N')
-            content += "Imaginative, Creative, Open-minded, ";
-        else if(profile.getMbti().charAt(1) == 'S')
-            content += "Realistic, Detail-oriented, Factual, ";
-
-        if(profile.getMbti().charAt(2) == 'F')
-            content += "Empathetic, Caring, Emotional, Supportive, Harmonious, Compassionate, Caring, ";
-        else if(profile.getMbti().charAt(2) == 'T')
-            content += "Logical, Objective, Rational, Critical, Detached, Pragmatic, Impartial, Analytical, ";
-
-        if(profile.getMbti().charAt(3) == 'P')
-            content += "Flexible, Easygoing, Laid-back, Adaptive\n";
-        else if(profile.getMbti().charAt(3) == 'J')
-            content += "Systematic, Responsible, Efficient, Punctual\n";
-
-        // TODO : 키워드 추가
-
-        content += "- Content : " + queryReq.getContent() + "\n" +
-                "- Language : in Korean\n" +
-                "- Character limit : 400 characters in Korean\n";
-        if(profile.getIs_polite())
-            content += "- polite speech";
-        else
-            content += "- casual speech";
-
-        System.out.println(content);
-
         chatMessages.add(new ChatMessage("user", content));
 
 //        content = "안녕 나의 사랑,\n" +
@@ -85,6 +45,51 @@ public class ChatGPTService {
 //        content = "더 귀엽게 써줘";
 //
 //        chatMessages.add(new ChatMessage("user", content));
+
+        ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
+                .model("gpt-3.5-turbo")
+                .messages(chatMessages)
+                .temperature(0.8)
+                .frequencyPenalty(0.8)
+                .presencePenalty(0.8)
+                .build();
+
+        ChatCompletionChoice chatCompletionChoice = openAiService.createChatCompletion(chatCompletionRequest).getChoices().get(0);
+
+        return chatCompletionChoice;
+    }
+
+    public ChatCompletionChoice requery(MyQuery query, RequeryReq requeryReq){
+        // query id로 content list 가져오기
+        List<GetContentRes> getContentResList = contentProvider.getContentResList(query.getId());
+        List<ChatMessage> chatMessages = new ArrayList<>();
+
+        chatMessages.add(new ChatMessage("system", "You are the author. please apply the options below to compose your mail."));
+
+        for(int i=0; i<getContentResList.size(); i++){
+            if(getContentResList.size() == 1){
+                System.out.println(1);
+                chatMessages.add(new ChatMessage("user", query.getQuestion()));
+                chatMessages.add(new ChatMessage("system", getContentResList.get(i).getContent()));
+                chatMessages.add(new ChatMessage("user", requeryReq.getFeedback()));
+                break;
+            }
+            if(i == 0){
+                System.out.println(2);
+                chatMessages.add(new ChatMessage("user", query.getQuestion()));
+            }
+            else if (i == getContentResList.size()-1) {
+                System.out.println(3);
+                chatMessages.add(new ChatMessage("system", getContentResList.get(i).getContent()));
+                chatMessages.add(new ChatMessage("user", requeryReq.getFeedback()));
+            }
+            else {
+                System.out.println(4);
+                chatMessages.add(new ChatMessage("system", getContentResList.get(i).getContent()));
+                chatMessages.add(new ChatMessage("user", getContentResList.get(i).getFeedback()));
+            }
+        }
+        chatMessages.forEach(System.out::println);
 
         ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest.builder()
                 .model("gpt-3.5-turbo")
