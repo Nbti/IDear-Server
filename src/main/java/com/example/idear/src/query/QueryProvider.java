@@ -1,9 +1,9 @@
 package com.example.idear.src.query;
 
 import com.example.idear.src.content.ContentProvider;
+import com.example.idear.src.content.dto.response.GetContentRes;
 import com.example.idear.src.query.dto.response.QueriesRes;
 import com.example.idear.src.query.model.MyQuery;
-import com.example.idear.utils.TimestampFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +31,10 @@ public class QueryProvider {
         }
 
         return queriesResList;
+    }
+
+    public GetContentRes getContent(Long contentId) {
+        GetContentRes getContentRes = contentProvider.getContentRes(contentId);
+        return getContentRes;
     }
 }
